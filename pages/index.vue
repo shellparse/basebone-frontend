@@ -1,7 +1,8 @@
 <template>
 <div class="px-2 h-screen bg-gradient-to-b from-green-200 to-blue-200">
   <div id="monitor" class="h-auto w-auto h-3/6 px-2">
-  <Create class="m-auto" v-if="show==='create'"/>
+  <UserCard :user=user v-if="variable==='0'&&show!='create'" />
+  <Create class="m-auto" v-if="show==='create'"  @submitted="updateIndex" />
   <List class="m-auto" v-else-if="show==='list'" />
   <Delete class="m-auto" v-else-if="show==='delete'" />
   </div>
@@ -39,17 +40,22 @@
 import List from '../components/List.vue';
 import Delete from '../components/Delete.vue';
 import Create from '~/components/Create.vue';
+import UserCard from '~/components/UserCard.vue';
 export default {
     name: "IndexPage",
-    components: {List, Delete, Create },
+    components: { List, Delete, Create, UserCard },
     methods:{
-      showForm(form){
-
+      updateIndex(variable){
+        this.user=variable
+        this.show="";
+        this.variable="0"
       }
     },
     data(){
       return{
-        show:""
+        show:"",
+        variable:"1",
+        user:{}
       }
     }
 }

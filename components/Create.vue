@@ -21,36 +21,41 @@
 
 <script>
 import List from '../components/List.vue';
+import UserCard from './UserCard.vue';
 export default {
-  data(){
-    return {
-      exampleForm:document.getElementById("form")
-    }
-  },
-  methods:{
-    handleCreateSubmit:async(event)=>{
-    event.preventDefault();
-    const form = event.currentTarget;
-    const url = form.action;
-    try{
-      const formData = new FormData(form);            
-	    const plainFormData = Object.fromEntries(formData.entries());
-	    const formDataJsonString = JSON.stringify(plainFormData);
-	    const response = await fetch(url, {
-		              method: "POST",
-		              headers: {
-			              "Content-Type": "application/json",
-			            Accept: "application/json",
-		              },
-		              body: formDataJsonString,
-	}).then((response)=>response.json()).then((result)=>{
-    
-  });
-      }catch(e){
-        console.error(e)
-      }
-    }
-  }
+    methods: {
+        handleCreateSubmit: async function (event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const url = form.action;
+            try {
+                const formData = new FormData(form);
+                const plainFormData = Object.fromEntries(formData.entries());
+                const formDataJsonString = JSON.stringify(plainFormData);
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: formDataJsonString,
+                }).then((response) => response.json()).then((result) => {
+                  result.attributes[0].uri="https://robohash.org/"+result.attributes.email
+                    this.$emit("submitted", result.attributes[0]);
+                });
+            }
+            catch (e) {
+                console.error(e);
+            }
+        }
+    },
+    data() {
+        return {
+            form: document.getElementById("form"),
+            string: "",
+        };
+    },
+    components: { UserCard }
 }
 //const { async } = require("q");
 
