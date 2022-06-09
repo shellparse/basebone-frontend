@@ -25,14 +25,13 @@ import UserCard from './UserCard.vue';
 export default {
     methods: {
         handleCreateSubmit: async function (event) {
-            event.preventDefault();
             const form = event.currentTarget;
             const url = form.action;
             try {
                 const formData = new FormData(form);
                 const plainFormData = Object.fromEntries(formData.entries());
                 const formDataJsonString = JSON.stringify(plainFormData);
-                const response = await fetch(url, {
+                fetch(url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
