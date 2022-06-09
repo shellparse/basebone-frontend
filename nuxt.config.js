@@ -47,6 +47,6 @@ export default {
   build: {
   },
   router: {
-    base: '/basebone-fronend/'
+    base: '/basebone-frontend/'
   }
 }
